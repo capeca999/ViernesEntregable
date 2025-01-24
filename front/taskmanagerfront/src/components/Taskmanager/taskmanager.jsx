@@ -1,5 +1,5 @@
 import React from 'react';
-
+//Aqui se deberian enseñar todas las tareas que tiene el usuario
 const Taskmanager = ({ data }) => {
     return (
         <div>

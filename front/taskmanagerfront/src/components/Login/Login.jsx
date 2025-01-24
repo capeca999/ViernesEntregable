@@ -67,7 +67,9 @@ const Login = ({ onLogin }) => {
     return (
         <div className="body">
             <div className="container">
+            <marquee>
                 <h2 className="header">{isRegistering ? 'Register' : 'Login'}</h2>
+              </marquee>
                 <form onSubmit={loginHandler}>
                     <label className="label">Username:</label>
                     <input 
