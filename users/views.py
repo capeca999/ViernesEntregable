@@ -17,11 +17,19 @@ def login_view(request):
             conn = connect()
             load_config()
             data = json.loads(request.body)
-            username = data.get('username')
-            email = data.get('email')
-            password = data.get('password')
-            # Add your login logic here
-            response = JsonResponse({'message': 'Logged in successfully'})
+            print(f"Received data: username={data.get('username')}, email={data.get('email')}, password={data.get('password')}")
+            sql = "SELECT * FROM users WHERE name = %s AND email = %s AND password = %s"
+            with conn.cursor() as cursor:
+                cursor.execute(sql, (data.get('username'), data.get('email'), data.get('password')))
+                user = cursor.fetchone()
+                print(f"Queried user: {user}")
+
+                
+
+            if user:
+                response = JsonResponse({'message': 'Logged in successfully'})
+            else:
+                response = JsonResponse({'message': 'User does not exist'}, status=404)
             response['Access-Control-Allow-Methods'] = 'GET, POST, DELETE'
             return response
         except json.JSONDecodeError:
@@ -36,19 +44,11 @@ def register_view(request):
         try:
             conn = connect()
             data = json.loads(request.body)
-            username = data.get('username')
-            email = data.get('email')
-            password = data.get('password')
-            print(f"Received data: username={username}, email={email}, password={password}")
-            # Convert username to array format
-            username_array = '{' + username + '}'
-            email_array = '{' + email + '}'
-            password_array = '{' + password + '}'
 
-
+            print(f"Received data: username={data.get('username')}, email={data.get('email')}, password={data.get('password')}")
             sql = "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)"
             with conn.cursor() as cursor:
-                cursor.execute(sql, (username_array, email_array, password_array))
+                cursor.execute(sql, (data.get('username'), data.get('email'), data.get('password')))
                 conn.commit()
 
             response = JsonResponse({'message': 'Registered successfully'})
