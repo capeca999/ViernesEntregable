@@ -45,3 +45,19 @@ body {
     cursor: pointer;
     font-size: 16px;
 }
+
+/* Add these new styles */
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link a {
+    color: #721c24;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
