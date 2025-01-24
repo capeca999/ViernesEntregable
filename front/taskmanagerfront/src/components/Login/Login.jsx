@@ -3,15 +3,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-
-
 
     const validate = () => {
         const errors = {};
@@ -33,10 +31,6 @@ const Login = () => {
         return errors;
     };
 
-
-
-    
-
     const loginHandler = async (x) => {
         x.preventDefault();
         const validationErrors = validate();
@@ -53,6 +47,7 @@ const Login = () => {
                 });
                 console.log(response.data);
                 if (response.status === 200) {
+                    onLogin(response.data);
                     navigate('/taskmanager', { state: { data: response.data } });
                 }
             } catch (error) {
@@ -80,7 +75,7 @@ const Login = () => {
                         type='text'
                     />
                     {errors.username && <p className="error">{errors.username}</p>}
-
+                    
                     <label className="label">Email:</label>
                     <input 
                         onChange={(event) => { setEmail(event.target.value) }} 
@@ -117,5 +112,3 @@ const Login = () => {
 }
 
 export default Login;
-
-
