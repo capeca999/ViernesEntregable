@@ -24,7 +24,11 @@ Una vez finalizado, debemos de iniciar manage.py, un comando de ejemplo seria in
 
 pip install -r /path/to/requirements.txt
 
-y para finalizar, iniciamos el servidor:
+Despues tenemos que iniciar el entorno virtual de venv, con el comando:
+
+.\venv\Scripts\activate
+
+Y para finalizar, iniciamos el servidor:
 
 python manage.py runserver
 
