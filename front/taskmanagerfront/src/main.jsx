@@ -5,7 +5,9 @@ import Login from "./components/login/login.jsx";
 import Taskmanager from './components/Taskmanager/taskmanager.jsx';
 
 const App = () => {
+  //Comprobamos si el usuario esta logeado
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //Comprobamos la información del usuario
   const [userData, setUserData] = useState(null);
 
   const handleLogin = (data) => {
@@ -13,6 +15,7 @@ const App = () => {
     setUserData(data);
   };
 
+//Rutas de la aplicación
   return (
     <BrowserRouter>
       <Routes>
@@ -23,6 +26,7 @@ const App = () => {
   );
 };
 
+//Wrapper para el TaskManager
 const TaskManagerWrapper = ({ isLoggedIn, userData, onLogin }) => {
   const location = useLocation();
   const data = location.state?.data || userData;
@@ -31,7 +35,7 @@ const TaskManagerWrapper = ({ isLoggedIn, userData, onLogin }) => {
 
   return isLoggedIn ? <Taskmanager data={data} /> : <Login onLogin={onLogin} />;
 };
-
+//Renderizamos la aplicación
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />

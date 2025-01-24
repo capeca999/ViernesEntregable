@@ -2,7 +2,7 @@ import './login.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+//Esta es la primera pagina que se le presentará al usuario, en la cual se le pedirá que se registre o inicie sesión
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -10,7 +10,7 @@ const Login = ({ onLogin }) => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-
+//Validamos los campos del formulario
     const validate = () => {
         const errors = {};
         if (!username) {
@@ -30,7 +30,7 @@ const Login = ({ onLogin }) => {
         }
         return errors;
     };
-
+//Esta función es llamada en el momento que el usuario intenta realizar un login o un registro.
     const loginHandler = async (x) => {
         x.preventDefault();
         const validationErrors = validate();
@@ -38,6 +38,7 @@ const Login = ({ onLogin }) => {
             setErrors(validationErrors);
         } else {
             setErrors({});
+            //Dependiendo de lo que estamos realizando, se llama a register o a login.
             const url = isRegistering ? 'http://127.0.0.1:8000/api/register/' : 'http://127.0.0.1:8000/api/login/';
             try {
                 const response = await axios.post(url, { username, email, password }, {
@@ -46,6 +47,7 @@ const Login = ({ onLogin }) => {
                     }
                 });
                 console.log(response.data);
+                //Si todo ha funcionado, independientemente si se ha logeado o registrado, se volver le presentara la vista taskmanager
                 if (response.status === 200) {
                     onLogin(response.data);
                     navigate('/taskmanager', { state: { data: response.data } });
@@ -61,7 +63,7 @@ const Login = ({ onLogin }) => {
             }
         }
     };
-
+//El formulario que se le presentará al usuario
     return (
         <div className="body">
             <div className="container">

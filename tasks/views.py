@@ -6,9 +6,9 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import load_config
 from connect import connect
 
+#Este fichero es el encargado de manejar las peticiones de los usuarios, en este caso del modelo TASKS
 @csrf_exempt
 def create_task_view(request):
     if request.method == 'POST':
