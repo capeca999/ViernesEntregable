@@ -1,5 +1,6 @@
 import './login.css';
 import { useState } from 'react';
+import axios from 'axios';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -7,6 +8,8 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
     const [errors, setErrors] = useState({});
+
+
 
     const validate = () => {
         const errors = {};
@@ -28,6 +31,10 @@ const Login = () => {
         return errors;
     };
 
+
+
+    
+
     const loginHandler = async (x) => {
         x.preventDefault();
         const validationErrors = validate();
@@ -35,16 +42,23 @@ const Login = () => {
             setErrors(validationErrors);
         } else {
             setErrors({});
-            const url = isRegistering ? '/api/register/' : '/api/login/';
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password }),
-            });
-            const data = await response.json();
-            console.log(data);
+            const url = isRegistering ? 'http://127.0.0.1:8000/api/register/' : 'http://127.0.0.1:8000/api/login/';
+            try {
+                const response = await axios.post(url, { username, email, password }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                console.log(response.data);
+            } catch (error) {
+                if (error.response) {
+                    console.error('Error response:', error.response.data);
+                } else if (error.request) {
+                    console.error('Error request:', error.request);
+                } else {
+                    console.error('Error message:', error.message);
+                }
+            }
         }
     };
 
@@ -98,3 +112,5 @@ const Login = () => {
 }
 
 export default Login;
+
+
