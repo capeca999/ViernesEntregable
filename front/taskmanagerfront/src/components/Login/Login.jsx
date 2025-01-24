@@ -22,24 +22,29 @@ const Login = () => {
         }
         if (!password) {
             errors.password = 'The password is required';
-        } else if (password.length < 25) {
-            errors.password = 'Password must be at least 6 characters';
+        } else if (password.length > 25) {
+            errors.password = 'Password must be at least 6 characters and not more than 25';
         }
         return errors;
     };
 
-    const loginHandler = (x) => {
+    const loginHandler = async (x) => {
         x.preventDefault();
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
             setErrors({});
-            if (isRegistering) {
-                console.log('Registering:', username, email, password);
-            } else {
-                console.log('Logging in:', username, email, password);
-            }
+            const url = isRegistering ? '/api/register/' : '/api/login/';
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, email, password }),
+            });
+            const data = await response.json();
+            console.log(data);
         }
     };
 
