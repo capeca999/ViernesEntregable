@@ -1,5 +1,6 @@
 import './login.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
 
 
@@ -50,6 +52,9 @@ const Login = () => {
                     }
                 });
                 console.log(response.data);
+                if (response.status === 200) {
+                    navigate('/taskmanager', { state: { data: response.data } });
+                }
             } catch (error) {
                 if (error.response) {
                     console.error('Error response:', error.response.data);
