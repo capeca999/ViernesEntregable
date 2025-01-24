@@ -24,8 +24,6 @@ def login_view(request):
                 user = cursor.fetchone()
                 print(f"Queried user: {user}")
 
-                
-
             if user:
                 response = JsonResponse({'message': 'Logged in successfully'})
             else:
