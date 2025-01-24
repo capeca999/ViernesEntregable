@@ -15,11 +15,11 @@ def create_task_view(request):
         try:
             conn = connect()
             data = json.loads(request.body)
-            print(f"Received data: title={data.get('title')}, description={data.get('description')}")
+            print(f"Received data: title={data.get('title')}, description={data.get('description')}, complete={data.get('complete')}, user_id={data.get('user_id')}")
 
             sql = "INSERT INTO tasks (title, description) VALUES (%s, %s)"
             with conn.cursor() as cursor:
-                cursor.execute(sql, (data.get('title'), data.get('description')))
+                cursor.execute(sql, (data.get('title'), data.get('description'), data.get('complete'), data.get('user_id')))
                 conn.commit()
 
             response = JsonResponse({'message': 'Task created successfully'})
@@ -58,11 +58,11 @@ def update_task_view(request, task_id):
         try:
             conn = connect()
             data = json.loads(request.body)
-            print(f"Received data: title={data.get('title')}, description={data.get('description')}")
+            print(f"Received data: title={data.get('title')}, description={data.get('description')}, complete={data.get('complete')}, user_id={data.get('user_id')}")
 
-            sql = "UPDATE tasks SET title = %s, description = %s WHERE id = %s"
+            sql = "UPDATE tasks SET title = %s, description = %s, complete = %s WHERE id = %s"
             with conn.cursor() as cursor:
-                cursor.execute(sql, (data.get('title'), data.get('description'), task_id))
+                cursor.execute(sql, (data.get('title'), data.get('description'), data.get('complete'), task_id))
                 conn.commit()
 
             response = JsonResponse({'message': 'Task updated successfully'})
